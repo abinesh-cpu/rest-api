@@ -2,6 +2,7 @@ from django.shortcuts import render
 import requests
 import math
 import datetime
+from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
@@ -45,3 +46,12 @@ def photos(request):
     return render(request,'photos.html')
 def single(request):
     return render(request,'single.html')
+
+
+def jsonres(request):
+    data={
+    "name":"jerin",
+    "age":25,
+    "city":True,
+    }
+    return JsonResponse(data)

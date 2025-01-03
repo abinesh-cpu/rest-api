@@ -8,4 +8,5 @@ urlpatterns=[
     path('news',views.news),
     path('photos',views.photos),
     path('single',views.single),
+    path('jsonres',views.jsonres),
 ]
