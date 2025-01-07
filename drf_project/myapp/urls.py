@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
 urlpatterns=[
-    path('<pk>',views.stud),
+    path('',views.stud),
+    # path('stud1',views.stud1)
 ]
