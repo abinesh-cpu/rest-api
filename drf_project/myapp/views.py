@@ -47,20 +47,20 @@ from rest_framework.views import APIView
     #     demo.delete()
     #     return HttpResponse('deleted')
     
-# @api_view(['GET', 'POST'])
+@api_view(['GET', 'POST'])
 
-# def stud(req):
-#     if req.method == 'GET':
-#         d = student.objects.all()
-#         s = studmodelserializer(d, many=True)
-#         return Response(s.data)
-#     elif req.method == 'POST':
-#         s = studmodelserializer (data=req.data)
-#         if s.is_valid():
-#             s.save()
-#             return JsonResponse(s.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return JsonResponse(s.errors, status=status.HTTP_400_BAD_REQUEST)
+def stud(req):
+    if req.method == 'GET':
+        d = student.objects.all()
+        s = studmodelserializer(d, many=True)
+        return Response(s.data)
+    elif req.method == 'POST':
+        s = studmodelserializer (data=req.data)
+        if s.is_valid():
+            s.save()
+            return JsonResponse(s.data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse(s.errors, status=status.HTTP_400_BAD_REQUEST)
         
         
 # @api_view(['GET', 'PUT', 'DELETE'])
@@ -84,16 +84,54 @@ from rest_framework.views import APIView
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# class stud1(APIView):
+#     def get(self,request):
+#         demo=student.objects.all()
+#         s=studmodelserializer(demo,many=True)
+#         return Response(s.data)
+    # def post(self,request):
+    #     s=studmodelserializer(data=request.data)
+    #     if s.is_valid():
+    #         s.save()
+    #         return JsonResponse(s.data,status=status.HTTP_201_CREATED)
+    #     else:
+    #         return JsonResponse(status=status.HTTP_400_BAD_REQUEST)
+
+
+
 class stud1(APIView):
-    def get(self,request):
-        demo=student.objects.all()
-        s=studmodelserializer(demo,many=True)
-        return Response(s.data)
-    def post(self,request):
-        s=studmodelserializer(data=request.data)
+    def get(self,req,pk):
+        try:
+            demo=student.objects.get(pk=pk)
+            s=studmodelserializer(demo)
+            return Response(s.data)
+        except student.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    def put(self,req,pk):
+        try:
+            demo=student.objects.get(pk=pk)
+            s=studmodelserializer(demo,data=req.data)
+            if s.is_valid():
+                s.save()
+                return Response(s.data)
+            else:
+                return Response (status=status.HTTP_400_BAD_REQUEST)
+        except student.DoesNotExist:
+            return Response (status=status.HTTP_404_NOT_FOUND)
+    def post(self,req,pk):
+        s=studmodelserializer(data=req.data)
         if s.is_valid():
             s.save()
             return JsonResponse(s.data,status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(status=status.HTTP_400_BAD_REQUEST)
-    
+    def delete(self,req,pk):
+        try:
+            demo=student.objects.get(pk=pk)
+            demo.delete()
+            return Response (status=status.HTTP_204_NO_CONTENT)
+        except student.DoesNotExist:
+            return Response (status=status.HTTP_404_NOT_FOUND)
+                
+        
+                 
